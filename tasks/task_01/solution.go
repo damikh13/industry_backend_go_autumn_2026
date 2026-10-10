@@ -6,10 +6,10 @@ import (
 )
 
 func greet(name string) string {
-	trimmedName := strings.TrimSpace(name)
-	if trimmedName == "" {
-		trimmedName = "World"
+	name = strings.TrimSpace(name)
+	if name == "" {
+		name = "World"
 	}
 
-	return fmt.Sprintf("Hello, %s!", trimmedName)
+	return fmt.Sprintf("Hello, %s!", name)
 }
