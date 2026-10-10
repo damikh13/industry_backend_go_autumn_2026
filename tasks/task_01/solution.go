@@ -11,6 +11,5 @@ func greet(name string) string {
 		trimmedName = "World"
 	}
 
-	out := fmt.Sprintf("Hello, %s!", trimmedName)
-	return out
+	return fmt.Sprintf("Hello, %s!", trimmedName)
 }
