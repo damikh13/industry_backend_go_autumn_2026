@@ -11,9 +11,6 @@ func NewCache[K comparable, V any](capacity int) *Cache[K, V] {
 }
 func (c *Cache[K, V]) Get(k K) (v V, ok bool) {
 	var zero V
-	if c.capacity == 0 {
-		return zero, false
-	}
 
 	if val, ok := c.items[k]; ok {
 		return val, true
