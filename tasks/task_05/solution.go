@@ -15,8 +15,8 @@ func (c *Cache[K, V]) Get(k K) (v V, ok bool) {
 		return zero, false
 	}
 
-	if V, ok := c.items[k]; ok {
-		return V, true
+	if val, ok := c.items[k]; ok {
+		return val, true
 	}
 
 	return zero, false
