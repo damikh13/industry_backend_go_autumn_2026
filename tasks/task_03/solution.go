@@ -8,21 +8,16 @@ import (
 var ErrZero = errors.New("zero is not allowed")
 
 func fizzBuzz(n int) (string, error) {
-	if n == 0 {
+	switch {
+	case n == 0:
 		return "", ErrZero
-	}
-
-	if n%3 == 0 && n%5 == 0 {
+	case n%3 == 0 && n%5 == 0:
 		return "FizzBuzz", nil
-	}
-
-	if n%3 == 0 {
+	case n%3 == 0:
 		return "Fizz", nil
-	}
-
-	if n%5 == 0 {
+	case n%5 == 0:
 		return "Buzz", nil
+	default:
+		return strconv.Itoa(n), nil
 	}
-
-	return strconv.Itoa(n), nil
 }
