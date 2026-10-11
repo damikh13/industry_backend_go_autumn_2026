@@ -6,17 +6,14 @@ type Stats struct {
 }
 
 func Calc(nums []int64) Stats {
-	stats := Stats{}
 	numsLen := len(nums)
 
 	if numsLen < 2 {
-		return stats
+		return Stats{}
 	}
 
-	initialMinimum := nums[1] - nums[0]
-	initialMaximum := initialMinimum
-	stats.Min = initialMinimum
-	stats.Max = initialMaximum
+	firstDiff := nums[1] - nums[0]
+	stats := Stats{Min: firstDiff, Max: firstDiff}
 
 	for i := 1; i < numsLen; i++ {
 		neighborsDiff := nums[i] - nums[i-1]
