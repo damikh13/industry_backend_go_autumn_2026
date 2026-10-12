@@ -10,13 +10,8 @@ func NewCache[K comparable, V any](capacity int) *Cache[K, V] {
 	return &Cache[K, V]{capacity: capacity, items: make(map[K]V, capacity)}
 }
 func (c *Cache[K, V]) Get(k K) (v V, ok bool) {
-	var zero V
-
-	if val, ok := c.items[k]; ok {
-		return val, true
-	}
-
-	return zero, false
+	val, ok := c.items[k]
+	return val, ok
 }
 func (c *Cache[K, V]) Set(k K, v V) bool {
 	_, alreadyExists := c.items[k]
