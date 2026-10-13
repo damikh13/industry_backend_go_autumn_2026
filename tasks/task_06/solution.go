@@ -13,13 +13,13 @@ type LRUCache[K comparable, V any] struct {
 }
 
 func NewLRUCache[K comparable, V any](capacity int) *LRUCache[K, V] {
-	cache := &LRUCache[K, V]{
+	c := &LRUCache[K, V]{
 		capacity: max(0, capacity),
 		ll:       list.List{},
 		items:    make(map[K]*list.Element),
 	}
-	cache.ll.Init()
-	return cache
+	c.ll.Init()
+	return c
 }
 func (c *LRUCache[K, V]) Get(key K) (value V, ok bool) {
 	elem, ok := c.items[key]
@@ -40,13 +40,13 @@ func (c *LRUCache[K, V]) Set(key K, value V) {
 
 	elem, alreadyExists := c.items[key]
 	if alreadyExists {
-		entryCopy := elem.Value.(entry[K, V])
-		entryCopy.value = value
-		elem.Value = entryCopy
+		entCopy := elem.Value.(entry[K, V])
+		entCopy.value = value
+		elem.Value = entCopy
 		return
 	}
 
-	cacheIsFull := c.capacity == len(c.items)
+	cacheIsFull := len(c.items) == c.capacity
 	if cacheIsFull {
 		oldestElem := c.ll.Back()
 		oldestElemKey := oldestElem.Value.(entry[K, V]).key
