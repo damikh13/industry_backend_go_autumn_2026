@@ -29,6 +29,9 @@ func NewLimiter(clock Clock, ratePerSec float64, burst int) *Limiter {
 	return l
 }
 func (l *Limiter) AllowN(n int) bool {
+	l.mu.Lock()
+	defer l.mu.Unlock()
+
 	if limiterOFF := n <= 0 || l.burst <= 0 || n > l.burst || l.clock == nil; limiterOFF {
 		return false
 	}
@@ -38,6 +41,7 @@ func (l *Limiter) AllowN(n int) bool {
 		timePassed := now.Sub(l.last)
 		tokensToAdd := l.rate * timePassed.Seconds()
 		l.last = now
+
 		if l.tokens+tokensToAdd < float64(l.burst) {
 			l.tokens += tokensToAdd
 		} else {
