@@ -34,13 +34,15 @@ func (l *Limiter) AllowN(n int) bool {
 	}
 
 	now := l.clock.Now()
-	timePassed := now.Sub(l.last)
-	tokensToAdd := l.rate * timePassed.Seconds()
-	l.last = now
-	if l.tokens+tokensToAdd < float64(l.burst) {
-		l.tokens += tokensToAdd
-	} else {
-		l.tokens = float64(l.burst)
+	if now.After(l.last) {
+		timePassed := now.Sub(l.last)
+		tokensToAdd := l.rate * timePassed.Seconds()
+		l.last = now
+		if l.tokens+tokensToAdd < float64(l.burst) {
+			l.tokens += tokensToAdd
+		} else {
+			l.tokens = float64(l.burst)
+		}
 	}
 
 	nFloat := float64(n)
