@@ -42,11 +42,8 @@ func (l *Limiter) AllowN(n int) bool {
 		tokensToAdd := l.rate * timePassed.Seconds()
 		l.last = now
 
-		if l.tokens+tokensToAdd < float64(l.burst) {
-			l.tokens += tokensToAdd
-		} else {
-			l.tokens = float64(l.burst)
-		}
+		l.tokens += tokensToAdd
+		l.tokens = min(l.tokens, float64(l.burst))
 	}
 
 	nFloat := float64(n)
