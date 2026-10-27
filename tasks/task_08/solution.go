@@ -1,7 +1,6 @@
 package main
 
 import (
-	// "fmt"
 	"sync"
 	"time"
 )
@@ -34,22 +33,19 @@ func (l *Limiter) AllowN(n int) bool {
 		return false
 	}
 
-	timePassed := l.clock.Now().Sub(l.last)
+	now := l.clock.Now()
+	timePassed := now.Sub(l.last)
 	tokensToAdd := l.rate * timePassed.Seconds()
-	// fmt.Printf("tokens: %v, tokensToAdd: %v\n", l.tokens, tokensToAdd)
+	l.last = now
 	if l.tokens+tokensToAdd < float64(l.burst) {
 		l.tokens += tokensToAdd
 	} else {
 		l.tokens = float64(l.burst)
 	}
 
-	l.last = l.clock.Now()
-
 	nFloat := float64(n)
-	// fmt.Printf("tokens to substract: %v\n", nFloat)
 	if l.tokens >= nFloat {
 		l.tokens -= nFloat
-		// fmt.Printf("tokens: %v\n", l.tokens)
 		return true
 	}
 
